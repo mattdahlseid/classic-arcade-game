@@ -1,18 +1,14 @@
 // Enemies our player must avoid
 class Enemy {
     constructor(x, y, z, a, b) {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-    
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
+    // enemy position variables
     this.x = x;
     this.y = y;
     // sets random speed
     this.z = (Math.floor(Math.random() * 5) + 2);
     this.a = (Math.floor(Math.random() * 700) + 500);
     this.b = b;
-    
+    // Enemy image
     this.sprite = 'images/enemy-bug.png';
     }
     
@@ -25,14 +21,14 @@ class Enemy {
             this.x = this.b; 
         }
     }
-
+    // draws Enemy on canvas
     render() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
 
 };
 
-// Add 100 to score when player reaches water
+// Function to add 100 to score (used when player reaches water)
 score = 0;
 
 function addScore() {
@@ -40,6 +36,7 @@ function addScore() {
     score += scoreMore;
 }
 
+// Function to remove a heart from lives (used upon player-enemy collision)
 hearts = 3;
 
 function removeHeart() {
@@ -47,6 +44,7 @@ function removeHeart() {
     hearts -= lessHeart;
 }
 
+// End game state (removes enemies from canvas, changes player to an enemy bug, removes all lives, creates text for modal) 
 function endGame() {
     allEnemies.length = 0;
     player.sprite = 'images/enemy-bug.png';
@@ -54,17 +52,17 @@ function endGame() {
     document.getElementById('win-text').innerHTML = "<strong>FINAL SCORE</strong>: " + score + "<br>" + "Oh no! You turned into a bug!"
 }
 
+// Sets new game
 function newGame() {
     location.reload();
 }
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
-
+// Player class
 class Player {
     constructor() {
+        // player image
         this.sprite = 'images/char-boy.png';
+        // player initial position
         this.x = 200;
         this.y = 400;
     }
@@ -73,6 +71,7 @@ class Player {
         // collision detection
         for (let enemy of allEnemies) {
             if (this.x >= enemy.x - 70 && this.x <= enemy.x + 80 && this.y >= enemy.y - 20 && this.y <= enemy.y + 20) {
+                // resets player to start position upon collision
                 this.x = 200;
                 this.y = 400;
                 removeHeart();
@@ -83,7 +82,7 @@ class Player {
                     // remove heart from lives
                     document.getElementById('hearts').firstChild.nextSibling.classList.remove('fa-heart')
                 } else if (hearts === 0) {
-                // activate loss/restart modal, change character to bug, remove enemies
+                // activate loss/restart modal after brief delay
                     endGame();
                     setTimeout(function() {
                         modal.style.display = 'block';
@@ -93,18 +92,21 @@ class Player {
         }
     }
 
+    // draws player to canvas
     render() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
 
-
+    // sets keypress events
     handleInput() {
+        // moves player left if within canvas
         if (event.keyCode == 37) {
             if (this.x <= 0) {
                 this.x = 0;
             } else {
             this.x = this.x - 100;
             }
+        // moves player up if within canvas
         } else if (event.keyCode == 38) {
             // after game over, allow player to move but not beyond
             // top border, and don't add to score when reaching top row
@@ -124,12 +126,14 @@ class Player {
             } else {
                 this.y = this.y - 83;
             }
+        // moves player right if within canvas
         } else if (event.keyCode == 39) {
             if (this.x >= 400) {
                 this.x = 400;
             } else {
             this.x = this.x + 100;
             }
+        // moves player down if within canvas
         } else if (event.keyCode == 40) {
             if (this.y >= 400) {
                 this.y = 400;
@@ -140,10 +144,10 @@ class Player {
     }
 }
 
-// Place the player object in a variable called player
+// Places the Player object in a variable called player
 let player = new Player();
 
-// Place enemy objects in enemy variables
+// Places enemy objects in various enemy variables
 let enemy = new Enemy(180, 226, this.z, this.a, -400);
 let enemy2 = new Enemy(-200, 226, this.z, this.a, -200);
 let enemy3 = new Enemy(-150, 145, this.z, this.a, -300);
@@ -153,7 +157,7 @@ let enemy6 = new Enemy(-400, 60, this.z, this.a, -300);
 let enemy7 = new Enemy(-240, 60, this.z, this.a, -270);
 let enemy8 = new Enemy(-200, 226, 2, this.a, -100);
 
-// Place all enemy objects in an array called allEnemies
+// Places all enemy objects in an array called allEnemies
 let allEnemies = [
     enemy,
     enemy2,
@@ -165,8 +169,8 @@ let allEnemies = [
     enemy8
 ];
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
+// This listens for key presses and sends the keys to the
+// Player.handleInput() method
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
         37: 'left',
