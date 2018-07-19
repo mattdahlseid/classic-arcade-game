@@ -4,8 +4,46 @@
     <meta charset="UTF-8">
     <title>Effective JavaScript: Frogger</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
 </head>
 <body>
+    <div id="modal">
+        <div class="modal-content">
+            <div class="modal-header">GAME OVER
+                <span class="exit-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <img src="images/enemy-bug.png" alt="enemy bug">
+            </div>
+            <div class="modal-footer">
+                <div id="win-text">
+                O
+                </div>
+                <button id="play-again-btn" type="button" onclick="newGame();">PLAY AGAIN</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="top-box">
+        <div id="score-box">
+            SCORE<br>
+            <div id="score">0</div>
+        </div>
+        <div id="game-name">
+            BUGGIN'<br>
+            OUT!
+        </div>
+        <div id="lives">
+            LIVES
+            <!-- Font Awesome icons -->
+            <div id="hearts">
+                <i class="fas fa-heart"></i>
+                <i class="fas fa-heart"></i>
+                <i class="fas fa-heart"></i>
+            </div>
+        </div>
+    </div>
     <script src="js/resources.js"></script>
     <script src="js/app.js"></script>
     <script src="js/engine.js"></script>
