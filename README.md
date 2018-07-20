@@ -21,6 +21,14 @@ This project was created to fulfill a requirement for [Udacity's Front End Devel
 
 <img src="https://image.ibb.co/gvNSyd/buggin_out2.png" alt="buggin_out2" border="0">
 
+## How to Download and Play Locally
+* Clone the repository or [download the ZIP file](https://github.com/mattdahlseid/classic-arcade-game/archive/master.zip) to your computer
+* Find the classic-arcade-game-master folder in your Downloads folder
+* If necessary, unzip the compressed classic-arcade-game-master folder
+* Open the classic-arcade-game-master folder and find the index.html file
+* Open the index.html file in the browser of your choice
+* Play the game
+
 ## How to Play
 * Move the player with the arrow keys 
 * Cross the stone road while avoiding enemy bugs
