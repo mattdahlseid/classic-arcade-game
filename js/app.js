@@ -1,15 +1,30 @@
-// Enemies our player must avoid
-class Enemy {
-    constructor(x, y, z, a, b) {
-    // enemy position variables
+'use strict';
+// Class template for enemy bugs and player 
+class Character {
+    constructor(x, y) {
+    this.sprite = 'images/';
     this.x = x;
     this.y = y;
+    }
+    // draws characters on canvas
+    render() {
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    }
+}
+
+// Enemy class for the bugs
+class Enemy extends Character {
+    constructor(x, y, z, a, b) {
+    super(x, y);
     // sets random speed
-    this.z = (Math.floor(Math.random() * 5) + 2);
-    this.a = (Math.floor(Math.random() * 700) + 500);
+    z = (Math.floor(Math.random() * 5) + 2);
+    this.z = z;
+    // sets random location for enemy to travel to before looping back
+    a = (Math.floor(Math.random() * 700) + 500);
+    this.a = a;
     this.b = b;
     // Enemy image
-    this.sprite = 'images/enemy-bug.png';
+    this.sprite += 'enemy-bug.png';
     }
     
     update(dt) {
@@ -21,15 +36,10 @@ class Enemy {
             this.x = this.b; 
         }
     }
-    // draws Enemy on canvas
-    render() {
-        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    }
-
 };
 
 // Function to add 100 to score (used when player reaches water)
-score = 0;
+let score = 0;
 
 function addScore() {
     let scoreMore = 100;
@@ -37,7 +47,7 @@ function addScore() {
 }
 
 // Function to remove a heart from lives (used upon player-enemy collision)
-hearts = 3;
+let hearts = 3;
 
 function removeHeart() {
     let lessHeart = 1;
@@ -57,11 +67,18 @@ function newGame() {
     location.reload();
 }
 
+// Sends player back to starting point after a collision or upon reaching the top row
+function backToStart() {
+    player.x = 200;
+    player.y = 400;
+}
+
 // Player class
-class Player {
-    constructor() {
+class Player extends Character {
+    constructor(x, y) {
+        super(x, y);
         // player image
-        this.sprite = 'images/char-boy.png';
+        this.sprite += 'char-boy.png';
         // player initial position
         this.x = 200;
         this.y = 400;
@@ -72,8 +89,7 @@ class Player {
         for (let enemy of allEnemies) {
             if (this.x >= enemy.x - 70 && this.x <= enemy.x + 80 && this.y >= enemy.y - 20 && this.y <= enemy.y + 20) {
                 // resets player to start position upon collision
-                this.x = 200;
-                this.y = 400;
+                backToStart();
                 removeHeart();
                 if (hearts == 2) {
                     // remove heart from lives
@@ -92,49 +108,42 @@ class Player {
         }
     }
 
-    // draws player to canvas
-    render() {
-        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    }
-
-    // sets keypress events
+    // sets keypress events for arrow keys and WASD
     handleInput() {
         // moves player left if within canvas
-        if (event.keyCode == 37) {
+        if (event.keyCode == 37 || event.keyCode == 65) {
             if (this.x <= 0) {
                 this.x = 0;
             } else {
             this.x = this.x - 100;
             }
         // moves player up if within canvas
-        } else if (event.keyCode == 38) {
-            // after game over, allow player to move but not beyond
-            // top border, and don't add to score when reaching top row
+        } else if (event.keyCode == 38 || event.keyCode == 87) {
+            // after game over, allow player to move but not beyond top border, and don't add to score when reaching top row
             if (this.y <= 70 && this.y >= -15 && hearts === 0) {
                 this.y = -15;
             // prevent player from going beyond top row
-            // send player back to start upon reaching top row
             } else if (this.y <= 70 && this.y >= -15) {
                 this.y = -15;
                 setTimeout(function() {
-                    player.x = 200;
-                    player.y = 400;
+                    // send player back to start upon reaching top row
+                    backToStart();
                     // add to score when reaching top row
                     addScore();
                     document.getElementById('score').innerHTML = score;
-                }, 100);
+                }, 200);
             } else {
                 this.y = this.y - 83;
             }
         // moves player right if within canvas
-        } else if (event.keyCode == 39) {
+        } else if (event.keyCode == 39 || event.keyCode == 68) {
             if (this.x >= 400) {
                 this.x = 400;
             } else {
             this.x = this.x + 100;
             }
         // moves player down if within canvas
-        } else if (event.keyCode == 40) {
+        } else if (event.keyCode == 40 || event.keyCode == 83) {
             if (this.y >= 400) {
                 this.y = 400;
             } else {
