@@ -30,7 +30,7 @@ This project was created to fulfill a requirement for [Udacity's Front End Devel
 * Play the game
 
 ## How to Play
-* Move the player with the arrow keys 
+* Move the player with the arrow keys or WASD keys
 * Cross the stone road while avoiding enemy bugs
 * Player has three lives and loses one life for each collision with an enemy bug
 * 100 points are added to the score when the player safely reaches the water 
